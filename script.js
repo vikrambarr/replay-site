@@ -7,7 +7,7 @@ document.getElementById('format').value = loadInfo.format;
 document.getElementById('user').value = loadInfo.player;
 
 function loadReplayList(loadextra) {
-    fetch('https://sim.pokeathlon.com/replays/replays.csv?' + cacheBuster).then(response => response.text()).then((data) => {
+    fetch('http://sim.pokeathlon.com/replays/replays.csv?' + cacheBuster).then(response => response.text()).then((data) => {
         var lines = data.split('\n');
         var output = [];
         var loadinfo = '';
@@ -37,7 +37,7 @@ function loadReplayList(loadextra) {
 }
 
 function loadReplay(titleInfo) {
-    const url = 'https://sim.pokeathlon.com/replays/'
+    const url = 'http://sim.pokeathlon.com/replays/'
     const info = parseURL();
     if (info.replay.length) {
         selectButton();
