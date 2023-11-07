@@ -1,6 +1,10 @@
 const cacheBuster = Date.now().toString().slice(7);
+const loadInfo = parseURL();
 
 loadReplayList(true);
+
+document.getElementById('format').value = loadInfo.format;
+document.getElementById('user').value = loadInfo.player;
 
 function loadReplayList(loadextra) {
     fetch('http://sim.pokeathlon.com/replays/replays.csv?' + cacheBuster).then(response => response.text()).then((data) => {
@@ -15,7 +19,9 @@ function loadReplayList(loadextra) {
 
             if (info[7] == search.replay) loadinfo = info;
 
-            if (search.player || search.format) {
+            if (search.player && search.format) {
+                if (toID(info[7]).includes(search.player) && toID(info[6]).includes(search.format)) output.push(line);
+            } else if ((search.player || search.format)) {
                 if (search.player && toID(info[7]).includes(search.player)) output.push(line);
                 if (search.format && toID(info[6]).includes(search.format)) output.push(line);
             } else output.push(line);
@@ -150,7 +156,6 @@ function createReplayButton(info) {
 }
 
 function createLink(link) {
-     
     var newLink = document.createElement('a');
     newLink.setAttribute('href', link);
 
@@ -160,6 +165,8 @@ function createLink(link) {
 function clearSearch() {
     search = parseURL();
     document.location.hash = search.replay ? `replay=${search.replay}&` : ``;
+    document.getElementById('format').value = '';
+    document.getElementById('user').value = '';
     loadReplayList(false);
 }
 
