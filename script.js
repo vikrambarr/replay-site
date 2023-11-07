@@ -7,7 +7,7 @@ document.getElementById('format').value = loadInfo.format;
 document.getElementById('user').value = loadInfo.player;
 
 function loadReplayList(loadextra) {
-    fetch('http://sim.pokeathlon.com/replays/replays.csv?' + cacheBuster).then(response => response.text()).then((data) => {
+    fetch('https://sim.pokeathlon.com/replays/replays.csv?' + cacheBuster).then(response => response.text()).then((data) => {
         var lines = data.split('\n');
         var output = [];
         var loadinfo = '';
@@ -37,7 +37,7 @@ function loadReplayList(loadextra) {
 }
 
 function loadReplay(titleInfo) {
-    const url = 'http://sim.pokeathlon.com/replays/'
+    const url = 'https://sim.pokeathlon.com/replays/'
     const info = parseURL();
     if (info.replay.length) {
         selectButton();
@@ -59,10 +59,12 @@ function addReplay(e) {
     var replay = e.target.closest('.replay-button').value;
 
     if (replay === curhash.replay) return;
-    if (curhash.replay.length) {
+    if (curhash.replay) {
         document.location.hash = document.location.hash.replace(`replay=${curhash.replay}`, `replay=${replay}`);
+    } else if ((curhash.player || curhash.format) && !document.location.hash.endsWith('&')) {
+        document.location.hash += `&replay=${replay}`;
     } else {
-        document.location.hash += `replay=${replay}&`;
+        document.location.hash += `replay=${replay}`;
     }
     loadReplay(e.target.closest('.replay-button').info);
 }
@@ -164,7 +166,7 @@ function createLink(link) {
 
 function clearSearch() {
     search = parseURL();
-    document.location.hash = search.replay ? `replay=${search.replay}&` : ``;
+    document.location.hash = search.replay ? `replay=${search.replay}` : ``;
     document.getElementById('format').value = '';
     document.getElementById('user').value = '';
     loadReplayList(false);
@@ -181,9 +183,11 @@ playerInput.addEventListener('keyup', (e) => {
 
     if (curSearch.player == toID(value)) return;
 
-    var buf = value ? `player=${toID(value)}&` : ``;
+    var buf = value ? `player=${toID(value)}` : ``;
     if (curSearch.player) {
-        document.location.hash = document.location.hash.replace(`player=${curSearch.player}&`, buf);
+        document.location.hash = document.location.hash.replace(`player=${curSearch.player}`, buf);
+    } else if ((curSearch.format || curSearch.replay) && !document.location.hash.endsWith('&')) {
+        document.location.hash += '&' + buf;
     } else {
         document.location.hash += buf;
     }
@@ -197,9 +201,11 @@ formatInput.addEventListener('keyup', (e) => {
 
     if (curSearch.format == toID(value)) return;
 
-    var buf = value ? `format=${toID(value)}&` : ``;
+    var buf = value ? `format=${toID(value)}` : ``;
     if (curSearch.format) {
-        document.location.hash = document.location.hash.replace(`format=${curSearch.format}&`, buf);
+        document.location.hash = document.location.hash.replace(`format=${curSearch.format}`, buf);
+    } else if ((curSearch.player || curSearch.replay) && !document.location.hash.endsWith('&')) {
+        document.location.hash += '&' + buf;
     } else {
         document.location.hash += buf;
     }
