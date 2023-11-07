@@ -159,7 +159,7 @@ function createLink(link) {
 
 function clearSearch() {
     search = parseURL();
-    document.location.hash = search.replay ? `replay=${search.replay}` : ``;
+    document.location.hash = search.replay ? `replay=${search.replay}&` : ``;
     loadReplayList(false);
 }
 
