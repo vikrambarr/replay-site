@@ -11,7 +11,7 @@ iframe {
     width: 69vw;
     height: 600px;
     margin: 0.5vw;
-    filter: grayscale(1) contrast(1.6);
+    filter: grayscale(0.3);
 }
 
 input:focus {

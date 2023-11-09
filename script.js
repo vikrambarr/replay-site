@@ -9,7 +9,7 @@ document.getElementById('user').value = loadInfo.player;
 function loadReplayList(loadextra) {
     fetch('https://sim.pokeathlon.com/replays/replays.csv?' + cacheBuster).then(response => response.text()).then((data) => {
         var lines = data.split('\n');
-        var output = [];
+        var output = data.split('\n');
         var loadinfo = '';
         const search = parseURL();
         
@@ -19,12 +19,7 @@ function loadReplayList(loadextra) {
 
             if (info[7] == search.replay) loadinfo = info;
 
-            if (search.player && search.format) {
-                if (toID(info[7]).includes(search.player) && toID(info[6]).includes(search.format)) output.push(line);
-            } else if ((search.player || search.format)) {
-                if (search.player && toID(info[7]).includes(search.player)) output.push(line);
-                if (search.format && toID(info[6]).includes(search.format)) output.push(line);
-            } else output.push(line);
+            if ((search.player && !info[7].includes(search.player)) || (search.format && !toID(info[6]).includes(search.format)))output.splice(output.indexOf(line), 1);
         }
 
         var replayContainer = document.getElementsByClassName('replay-container')[0];
@@ -183,13 +178,12 @@ playerInput.addEventListener('keyup', (e) => {
 
     if (curSearch.player == toID(value)) return;
 
-    var buf = value ? `player=${toID(value)}` : ``;
+    var amper = document.location.hash.includes('&player') ? `&` : ``;
+    var buf = value ? `${amper}player=${toID(value)}` : ``;
     if (curSearch.player) {
-        document.location.hash = document.location.hash.replace(`player=${curSearch.player}`, buf);
-    } else if ((curSearch.format || curSearch.replay) && !document.location.hash.endsWith('&')) {
-        document.location.hash += '&' + buf;
+        document.location.hash = document.location.hash.replace(`${amper}player=${curSearch.player}`, buf);
     } else {
-        document.location.hash += buf;
+        document.location.hash += '&' + buf;
     }
     loadReplayList(false);
 });
@@ -201,13 +195,12 @@ formatInput.addEventListener('keyup', (e) => {
 
     if (curSearch.format == toID(value)) return;
 
-    var buf = value ? `format=${toID(value)}` : ``;
+    var amper = document.location.hash.includes('&format') ? `&` : ``;
+    var buf = value ? `${amper}format=${toID(value)}` : ``;
     if (curSearch.format) {
-        document.location.hash = document.location.hash.replace(`format=${curSearch.format}`, buf);
-    } else if ((curSearch.player || curSearch.replay) && !document.location.hash.endsWith('&')) {
-        document.location.hash += '&' + buf;
+        document.location.hash = document.location.hash.replace(`${amper}format=${curSearch.format}`, buf);
     } else {
-        document.location.hash += buf;
+        document.location.hash += '&' + buf;
     }
     loadReplayList(false);
 });
