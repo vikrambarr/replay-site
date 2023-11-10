@@ -118,6 +118,7 @@ input:focus {
     font-size: 1.35vw;
     text-align: left;
     transition: 0.1s;
+    cursor: pointer;
 }
 
 .replay-button {
@@ -132,6 +133,7 @@ input:focus {
     font-size: 1.35vw;
     text-align: left;
     transition: 0.1s;
+    cursor: pointer;
 }
 
 .selected {
