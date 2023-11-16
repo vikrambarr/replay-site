@@ -106,7 +106,8 @@ function getDateText(creationTime) {
     var minutes = Math.floor(timeDifference / 1000 / 60);
 
     if (days > 6) {
-        var date = new Date(creationTime);
+        var date = new Date(0);
+        date.setUTCMilliseconds(creationTime);
         return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
     } else if (days > 0 ) {
         var unit = days == 1 ? 'day' : 'days';
