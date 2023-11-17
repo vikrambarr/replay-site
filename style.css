@@ -6,6 +6,11 @@ body {
     -webkit-font-smoothing : none;
 }
 
+a {
+    all: unset;
+    cursor: pointer;
+}
+
 iframe {
     all: unset;
     width: 69vw;
