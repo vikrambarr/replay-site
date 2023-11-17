@@ -83,7 +83,7 @@ function createReplayList(replays) {
     var replayList = document.createElement('ul');
     replayList.setAttribute('class', 'replay-list');
     
-    for (let replay of replays) {
+    for (let replay of replays.reverse()) {
         info = replay.split(',');
         if (info.length != 9) continue;
         
