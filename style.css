@@ -48,7 +48,7 @@ input:focus {
     margin-bottom: 1.4vh;
 }
 
-.search-container span input{
+.search-container span input {
     margin-right: 0.5vw;
     margin-left: 0.5vw;
     width: 10vw;
@@ -58,7 +58,7 @@ input:focus {
 }
 
 .search-container h1 {
-    margin-bottom: 0.1vw;
+    margin-bottom: 2vw;
     margin-top: 0.1vw;
     font-size: 2.5vw;
     color: white;
@@ -139,6 +139,10 @@ input:focus {
     text-align: left;
     transition: 0.1s;
     cursor: pointer;
+}
+
+.replay-button-mobile {
+    width: 88vw;
 }
 
 .selected {

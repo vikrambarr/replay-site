@@ -1,5 +1,23 @@
 const cacheBuster = Date.now().toString().slice(7);
 const loadInfo = parseURL();
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+if(isMobile) {
+    var battleContainer = document.querySelectorAll('.battle-container');
+    battleContainer.forEach(container => {container.style.display = 'none';});
+    
+    var leftContainer = document.querySelectorAll('.left-container');
+    leftContainer.forEach(container => {container.style.width = '100vw';});
+
+    var title = document.querySelectorAll('.search-container h1');
+    title.forEach(container => {container.style['font-size'] = '25pt';});
+
+    var search = document.querySelectorAll('.search-container span input');
+    search.forEach(container => {container.style['font-size'] = '10pt'; container.style.height = '2vh'; container.style.width = '27vw';});
+
+    var clearButton = document.querySelectorAll('.search-container button');
+    clearButton.forEach(container => {container.style['font-size'] = '10pt'; container.style.height = '3vh'; container.style.width = '27vw'; container.style['align-items'] = 'center';});
+}
 
 loadReplayList(true);
 
@@ -73,7 +91,7 @@ function selectButton() {
     for (let button of buttons) {
         if (button.value == info.replay) {
             button.classList.add('selected');
-            button.scrollIntoView();
+            button.scrollIntoView({block: "center", behavior: "smooth"});
         }
     }
 }
@@ -143,19 +161,24 @@ function parseURL() {
 function createReplayButton(info) {
     var replayButton = document.createElement('button');
     
-    replayButton.setAttribute('class', 'replay-button');
+    replayButton.setAttribute('class', isMobile ? 'replay-button-mobile' : 'replay-button');
     replayButton.setAttribute('value', info[7]);
     replayButton.info = info;
 
     replayButton.addEventListener('click', addReplay);
+
     replayButton.innerHTML = `<span><b>${info[1]}</b> vs. <b>${info[2]}</b></span><br><span>${getDateText(info[5])}</span>`;
     
-    return replayButton;
+    var replayLink = createLink('https://sim.pokeathlon.com/replays/' + info[7] + '.html');
+    replayLink.appendChild(replayButton);
+
+    return isMobile ? replayLink : replayButton;
 }
 
 function createLink(link) {
     var newLink = document.createElement('a');
     newLink.setAttribute('href', link);
+    newLink.setAttribute('target', '_blank');
 
     return newLink
 }
