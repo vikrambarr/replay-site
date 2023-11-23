@@ -16,7 +16,7 @@ if(isMobile) {
     search.forEach(container => {container.style['font-size'] = '10pt'; container.style.height = '2vh'; container.style.width = '27vw';});
 
     var clearButton = document.querySelectorAll('.search-container button');
-    clearButton.forEach(container => {container.style['font-size'] = '10pt'; container.style.height = '3vh'; container.style.width = '27vw'; container.style['align-items'] = 'center';});
+    clearButton.forEach(container => {container.style['font-size'] = '10pt'; container.style.height = '3vh'; container.style.width = '30vw'; container.style['align-items'] = 'center';});
 }
 
 loadReplayList(true);
