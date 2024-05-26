@@ -103,10 +103,13 @@ function createReplayList(replays) {
 
     var replayList = document.createElement('ul');
     replayList.setAttribute('class', 'replay-list');
+
+    var counter = 0;
     
     for (let replay of replays.reverse()) {
         info = replay.split(',');
         if (info.length != 9) continue;
+        if (counter === 500) break;
         
         var replayElem = document.createElement('li');
         //var replayLink = createLink('?' + info[7]);
@@ -115,6 +118,8 @@ function createReplayList(replays) {
        //replayLink.appendChild(replayButton);
         replayElem.appendChild(replayButton);
         replayList.appendChild(replayElem);
+
+        counter ++;
     }
 
     return replayList;
