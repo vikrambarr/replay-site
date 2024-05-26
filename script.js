@@ -3,6 +3,9 @@ const loadInfo = parseURL();
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 if(isMobile) {
+    var redirect = parseURL().replay;
+    if (redirect) window.location.replace("https://sim.pokeathlon.com/replays/" + redirect + ".html?" + cacheBuster);
+
     var battleContainer = document.querySelectorAll('.battle-container');
     battleContainer.forEach(container => {container.style.display = 'none';});
     
